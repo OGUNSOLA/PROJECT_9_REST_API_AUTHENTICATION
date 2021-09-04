@@ -71,21 +71,22 @@ router.post(
 
 router.put(
   "/courses/:id",
+  authenticateUser,
   asyncHandler(async (req, res) => {
-    const user = await Course.findByPk(req.params.id);
-    await user.update(req.body);
-    res.json(user);
-    res.status(200).end();
+    const course = await Course.findByPk(req.params.id);
+    course.update(req.body);
+    res.json(course);
+    res.status(204);
   })
 );
 
 router.delete(
   "/courses/:id",
+  authenticateUser,
   asyncHandler(async (req, res) => {
-    const user = await Course.findByPk(req.params.id);
-    user.destroy();
-
-    res.status(200).end();
+    const course = await Course.findByPk(req.params.id);
+    course.destroy();
+    res.status(204).end();
   })
 );
 
