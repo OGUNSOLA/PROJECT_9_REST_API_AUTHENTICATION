@@ -14,8 +14,10 @@ router.get(
   asyncHandler(async (req, res) => {
     const user = req.currentUser;
     res.json({
-      name: user.firstName,
-      username: user.emailAddress,
+      "First Name": user.firstName,
+      "Last name:": user.lastName,
+      Username: user.emailAddress,
+      id: user.id,
     });
   })
 );
@@ -49,9 +51,21 @@ router.get(
 
 router.post(
   "/courses",
+  authenticateUser,
   asyncHandler(async (req, res) => {
-    await Course.create(req.body);
-    res.status(201).location("/").end();
+    let newCourse = {
+      title: req.body.title,
+      description: req.body.description,
+      estimatedTime: req.body.estimatedTime,
+      materialsNeeded: req.body.materialsNeeded,
+      userId: req.currentUser.id,
+    };
+
+    await Course.create(newCourse).then((newlyCreated) => {
+      res.status(201);
+      //   res.location("/courses" + newlyCreated.id);
+      res.setHeader("Location", `/course/${newlyCreated.id}`);
+    });
   })
 );
 
