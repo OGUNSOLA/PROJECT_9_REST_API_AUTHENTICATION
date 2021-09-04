@@ -7,6 +7,7 @@ const express = require("express");
 const morgan = require("morgan");
 const models = require("./models");
 const routes = require("./routes");
+const auth = require("./middleWare/auth-user");
 
 // variable to enable global error logging
 const enableGlobalErrorLogging =
@@ -34,9 +35,7 @@ app.use("/api", routes);
 
 // setup a friendly greeting for the root route
 app.get("/", (req, res) => {
-  res.json({
-    message: "Welcome to the REST API project!",
-  });
+  res.redirect("/api/user");
 });
 
 // send 404 if no other route matched
