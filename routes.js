@@ -14,8 +14,8 @@ router.get(
   asyncHandler(async (req, res) => {
     const user = req.currentUser;
     res.json({
-      name: user.name,
-      username: user.username,
+      name: user.firstName,
+      username: user.emailAddress,
     });
   })
 );
