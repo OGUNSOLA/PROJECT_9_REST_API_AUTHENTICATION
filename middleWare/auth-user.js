@@ -27,9 +27,11 @@ const authenticateUser = async (req, res, next) => {
         // Store the user on the Request object.
         req.currentUser = user;
       } else {
+        // if not auticated
         message = `Authentication failure for username: ${user.emailAddress}`;
       }
     } else {
+      // if user doesnt exist
       message = `User not found for username: ${credentials.name}`;
     }
   } else {

@@ -6,9 +6,10 @@ const User = require("./models").User;
 const Course = require("./models").Course;
 const authenticateUser = require("./middleWare/auth-user");
 const asyncHandler = require("./middleWare/asyncHandler");
-const tryCatch = require("./middleWare/tryCatch");
 
 // USER ROUTE
+
+// get a single user
 router.get(
   "/users",
   authenticateUser,
@@ -20,15 +21,16 @@ router.get(
       },
     });
 
-    res.json(user);
+    res.status(200).json(user);
   })
 );
 
+// create a user
 router.post(
   "/users",
   asyncHandler(async (req, res) => {
     try {
-      User.create(req.body);
+      await User.create(req.body);
       res.status(201).location("/").end();
     } catch (error) {
       if (error) {
@@ -48,6 +50,8 @@ router.post(
 );
 
 // COURSES ROUTE
+
+// get all courses with their associated users
 router.get(
   "/courses",
   asyncHandler(async (req, res) => {
@@ -67,6 +71,7 @@ router.get(
   })
 );
 
+// get a single course with id
 router.get(
   "/courses/:id",
   asyncHandler(async (req, res) => {
@@ -86,6 +91,7 @@ router.get(
   })
 );
 
+// create a course
 router.post(
   "/courses",
   authenticateUser,
@@ -122,6 +128,7 @@ router.post(
   })
 );
 
+// edit s course
 router.put(
   "/courses/:id",
   authenticateUser,
@@ -159,6 +166,8 @@ router.put(
     }
   })
 );
+
+// delete a course
 
 router.delete(
   "/courses/:id",
