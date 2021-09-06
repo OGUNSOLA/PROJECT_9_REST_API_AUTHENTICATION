@@ -45,6 +45,9 @@ module.exports = (sequelize, DataTypes) => {
       emailAddress: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: {
+          msg: "The username you entered already exists",
+        },
         validate: {
           notEmpty: {
             msg: "User 'email' is required",

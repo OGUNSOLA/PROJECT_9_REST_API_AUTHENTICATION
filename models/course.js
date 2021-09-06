@@ -64,9 +64,3 @@ module.exports = (sequelize, DataTypes) => {
   };
   return Course;
 };
-
-// title (String)
-// description (Text)
-// estimatedTime (String)
-// materialsNeeded (String)
-// userId (created in the model associations with the foreignKey property, and equals the id from the Users table)
