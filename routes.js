@@ -128,15 +128,21 @@ router.put(
   asyncHandler(async (req, res) => {
     try {
       const course = await Course.findByPk(req.params.id);
-      console.log(req.body);
-
-      if (req.body.title !== "" && req.body.description !== "") {
-        course.update(req.body);
-        res.json(course);
-        res.status(204);
-      } else {
-        res.json({ message: " Title and description are required" });
-        res.status(400);
+      if (course) {
+        if (req.currentUser.id === course.userId) {
+          if (req.body.title !== "" && req.body.description !== "") {
+            course.update(req.body);
+            console.log("updated");
+            res.status(204).json({
+              message: "Course update successful",
+            });
+          } else {
+            res.json({ message: " Title and description are required" });
+            res.status(400);
+          }
+        } else {
+          res.status(403).json({ message: "Acess denied" });
+        }
       }
     } catch (error) {
       if (error) {
@@ -164,7 +170,7 @@ router.delete(
         course.destroy();
         res.status(204).end();
       } else {
-        res.json({ message: "You are not the course owner" });
+        res.status(403).json({ message: "You are not the course owner" });
       }
     } catch (error) {
       if (error) {
