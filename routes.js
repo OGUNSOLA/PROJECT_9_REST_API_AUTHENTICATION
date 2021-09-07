@@ -65,6 +65,7 @@ router.get(
           },
         },
       ],
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     });
     res.json(users);
     res.status(200).end();
@@ -85,6 +86,7 @@ router.get(
           },
         },
       ],
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     });
     res.json(user);
     res.status(200).end();
@@ -144,8 +146,9 @@ router.put(
               message: "Course update successful",
             });
           } else {
-            res.json({ message: " Title and description are required" });
-            res.status(400);
+            res
+              .status(400)
+              .json({ message: " Title and description are required" });
           }
         } else {
           res.status(403).json({ message: "Acess denied" });
